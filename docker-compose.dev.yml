@@ -1,0 +1,52 @@
+version: "3.2"
+services:
+  frontend:
+    container_name: bio2game_frontend
+    build:
+      context: ../frontend/
+      dockerfile: Dockerfile.dev
+    env_file:
+      - ../frontend/.env
+    volumes:
+      - ../frontend:/app:cached
+      - /app/node_modules
+    ports:
+      - "6001:6001"
+    depends_on:
+      - postgres
+    networks:
+      - global
+
+  backend:
+    container_name: bio2game_backend
+    build:
+      context: ../backend/
+      dockerfile: Dockerfile.dev
+    env_file:
+      - ../backend/.env
+    volumes:
+      - ../backend:/app:cached
+      - /app/node_modules
+      - ../cdn:/app/files
+    ports:
+      - "6002:6002"
+    depends_on:
+      - postgres
+    networks:
+      - global
+
+  postgres:
+    container_name: bio2game_postgres
+    image: "postgres:13"
+    restart: always
+    env_file:
+      - ./.env
+    volumes:
+      - ./database/postgres:/var/lib/postgresql/data
+    ports:
+      - "5435:5432"
+    networks:
+      - global
+
+networks:
+  global:
