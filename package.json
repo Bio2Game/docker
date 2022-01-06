@@ -5,6 +5,7 @@
   "scripts": {
     "start": "docker-compose -p bio2game -f ./docker-compose.yml up -d",
     "build": "docker-compose -p bio2game -f ./docker-compose.yml build",
+    "down": "docker-compose -p bio2game -f ./docker-compose.yml down",
     "shell:frontend": "docker exec -it bio2game_frontend bash",
     "shell:backend": "docker exec -it bio2game_backend bash",
     "dev": "docker-compose -p bio2game -f ./docker-compose.dev.yml up",
