@@ -43,5 +43,35 @@ services:
     networks:
       - global
 
+  cube:
+    container_name: bio2game_cube
+    image: cubejs/cube:latest
+    ports:
+      - 4000:4000
+    environment:
+      - CUBEJS_DB_TYPE=postgres
+      - CUBEJS_DB_HOST=bio2game_postgres
+      - CUBEJS_DB_NAME=${POSTGRES_USER}
+      - CUBEJS_DB_USER=${POSTGRES_USER}
+      - CUBEJS_DB_PASS=${POSTGRES_PASSWORD}
+      - CUBEJS_REDIS_URL=redis://redis:6379
+      - CUBEJS_API_SECRET=${CUBE_SECRET}
+    volumes:
+      - ./database/cube:/cube/conf
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - global
+
+  redis:
+    image: bitnami/redis:latest
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    logging:
+      driver: none
+    networks:
+      - global
+
 networks:
   global:

@@ -48,5 +48,22 @@ services:
     networks:
       - global
 
+  cube:
+    container_name: bio2game_cube
+    image: cubejs/cube:latest
+    ports:
+      - 4000:4000
+    environment:
+      - CUBEJS_DEV_MODE=true
+      - CUBEJS_DB_TYPE=postgres
+      - CUBEJS_DB_HOST=bio2game_postgres
+      - CUBEJS_DB_NAME=${POSTGRES_USER}
+      - CUBEJS_DB_USER=${POSTGRES_USER}
+      - CUBEJS_DB_PASS=${POSTGRES_PASSWORD}
+    volumes:
+      - .:/cube/conf
+    networks:
+      - global
+
 networks:
   global:
